@@ -8,7 +8,7 @@ A browser plugin to automatically sync cookies for local frontend development of
 
 You can install the latest version of the Cookie Sync extension using the links below:
 
-- [Get GHN Cookie Sync for Firefox](https://addons.mozilla.org/en-US/firefox/addon/ghn-cookie/)
+- [Get GHN Cookie Sync for Firefox](https://addons.mozilla.org/en-US/firefox/addon/ghn-cookie-sync/)
 
 This is the recommended installation method.
 
