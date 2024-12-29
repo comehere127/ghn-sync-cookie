@@ -1,6 +1,6 @@
 {
   "name": "ghn-cookie-sync",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Sync cookies for local frontend development of GHN",
   "private": true,
   "repository": "https://github.com/comehere127/ghn-sync-cookie.git",
