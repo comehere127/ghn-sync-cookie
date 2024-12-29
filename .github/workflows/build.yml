@@ -13,6 +13,7 @@ jobs:
     outputs:
       new_tag: ${{ steps.find_version.outputs.new_tag }}
       new_version: ${{ steps.find_version.outputs.new_version }}
+      changelog: ${{ steps.find_version.outputs.changelog }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,7 +26,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: master
-          dry_run: true
+          dry_run: true 
 
       - name: Update package.json version
         run: |
@@ -62,7 +63,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: master # Ensure we're using the updated master
+          ref: master
 
       - name: Setup Node v${{ env.node-version }}
         uses: actions/setup-node@v3
@@ -90,19 +91,13 @@ jobs:
           name: extensions
           path: extension/
 
-      - name: Create tag
-        uses: mathieudutour/github-tag-action@v6.1
-        id: tag_version
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_branches: master
-          custom_tag: ${{ needs.pump-version.outputs.new_tag }}
-          dry_run: false
-
-      - name: Create GitHub release
+      - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ needs.pump-version.outputs.new_tag }}
           name: Release ${{ needs.pump-version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          body: ${{ needs.pump-version.outputs.changelog }}
           artifacts: extension/chrome.zip, extension/edge.zip, extension/opera.zip, extension/firefox.xpi
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          makeLatest: true
