@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/comehere127/ghn-sync-cookie/actions/workflows/build.yml/badge.svg)](https://github.com/comehere127/ghn-sync-cookie/actions/workflows/build.yml)
+
 # GHN Cookie Sync
 
 A browser plugin to automatically sync cookies for local frontend development of GHN. This extension will copy cookies from portal and make them available for your development environment, including version sandbox deployments.
