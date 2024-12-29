@@ -14,6 +14,7 @@ import { findOpenProdTabs, tabsToOrigins} from './tabs';
 
 function debugResults(
   event: string,
+  // eslint-disable-next-line no-undef
   results: PromiseSettledResult<
     | {
         origin: string;

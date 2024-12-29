@@ -1,4 +1,4 @@
-
+import * as React from "react";
 const allowChar = [
   "1",
   "2",
