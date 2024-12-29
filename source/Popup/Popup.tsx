@@ -3,11 +3,11 @@ import * as React from 'react';
 import browser from 'webextension-polyfill';
 
 import './popup.css';
+import { analyzeDomain, openTab, replaceDomain } from '../Background/domains';
 import { Domain } from '../Background/storage';
 import ExternalIcon from '../icons/ExternalIcon';
 import FailedIcon from '../icons/FailedIcon';
 import useSyncNow from '../useSyncNow';
-import { analyzeDomain, openTab, replaceDomain } from '../utils/domainChecker';
 import DomainsEnabled from './DomainsEnabled';
 import { usePopup } from './PopupContext';
 import ResultList from './ResultList';

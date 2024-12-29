@@ -12,9 +12,7 @@ export default function CopyButton({text}: Props) {
   const handleOnClick = React.useCallback(() => {
     navigator.clipboard
       .writeText(text)
-      .then(() => {
-        setState('copied');
-      })
+      .then(() => setState('copied'))
       // eslint-disable-next-line no-unused-vars
       .catch((_error) => {
         setState('error');

@@ -1,10 +1,11 @@
-import browser, {Cookies} from 'webextension-polyfill';
+import browser, { Cookies } from 'webextension-polyfill';
 
 import uniq from '../utils/uniq';
 
 const cookieNames: ReadonlyArray<string> = [
   'sso_session',
-  'it'
+  'it',
+  'ghn_token',
 ];
 
 export function isKnownCookie(cookieName: string) {
@@ -24,42 +25,43 @@ export async function getCookiesByOrigin(origins: string[]) {
   await Promise.all(
     uniq(origins).map(async (origin) => {
       const cookies = await readCookiesFrom(origin);
-      cookiesByOrigin.set(origin, cookies);
+      if (cookies.length > 0) {
+        cookiesByOrigin.set(origin, cookies);
+      }
     })
   );
 
   return cookiesByOrigin;
 }
 
-/**
- * Set a Cookie against the target domain.
- *
- * @param url
- * @param target Domain where the Cookie should be saved
- * @param cookie Original Cookie to be copied
- * @returns The saved Cookie
- */
 export async function setTargetCookie(
   origin: string,
-  // targetDomain: string,
   cookie: Cookies.Cookie
 ): Promise<{
   origin: string;
   cookie: Cookies.Cookie;
 }> {
-  const details:Cookies.SetDetailsType = {
+  const details: Cookies.SetDetailsType = {
     url: origin,
     name: cookie.name,
     value: cookie.value,
-    path: cookie.path,
-    ...(cookie.expirationDate && { expirationDate: cookie.expirationDate }),
-    ...(cookie.sameSite && { sameSite: cookie.sameSite as Cookies.SameSiteStatus }),
-    ...(typeof cookie.httpOnly === 'boolean' && { httpOnly: cookie.httpOnly }),
-    ...(typeof cookie.secure === 'boolean' && { secure: cookie.secure })
+    path: cookie.path || '/',
+    sameSite: cookie.sameSite,
+    expirationDate: cookie.expirationDate,
+    httpOnly: cookie.httpOnly,
   };
 
-  const updated = await browser.cookies.set(details);
-  
+  let updated = {} as Cookies.Cookie;
+
+  try {
+    updated = await browser.cookies.set(details);
+  } catch (error) {
+    console.error('Error setting cookie:', {
+      error,
+      origin,
+      cookieName: cookie.name
+    });
+  }
 
   return { origin, cookie: updated };
 }

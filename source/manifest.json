@@ -2,7 +2,7 @@
   "__chrome|edge|opera__manifest_version": 3,
   "__firefox__manifest_version": 2,
   "name": "GHN Cookie Sync",
-  "version": "1.0.3",
+  "version": "1.0.1",
   "icons": {
     "32": "assets/icons/favicon-32.png",
     "128": "assets/icons/favicon-128.png",
@@ -26,7 +26,7 @@
   ],
   "__chrome|edge|opera__host_permissions": [
     "https://*.ghn.tech/*",
-    "http://localhost/*"
+    "*://localhost:*/*"
   ],
   "__firefox__content_security_policy": "script-src 'self'; object-src 'self'",
   "__chrome|edge|opera__content_security_policy": {
@@ -35,7 +35,7 @@
   "author": "TuDHM",
   "__firefox__browser_specific_settings": {
     "gecko": {
-      "id": "duonghominhtu1207@gmail.com"
+      "id": "{91bede6c-62d4-42d6-a7ac-13a19d9718cc}"
     }
   },
   "__chrome__minimum_chrome_version": "88",

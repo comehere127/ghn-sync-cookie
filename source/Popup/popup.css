@@ -196,3 +196,16 @@ table.found-cookies>tr:not(:last-child)>th,
 table.found-cookies>tbody:not(:last-child) {
  border-bottom: 1px solid var(--sync-gray200);
 }
+
+table.found-cookies>tbody>tr>td.cookie-value{
+  position: relative;
+  max-width: 300px;
+}
+
+table.found-cookies>tbody>tr>td.cookie-value .cookie-value-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

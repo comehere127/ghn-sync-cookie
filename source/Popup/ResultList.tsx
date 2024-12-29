@@ -39,8 +39,10 @@ function ResultList({ results }: ResultListProps) {
           {cookies.map((cookie) => (
             <tr key={cookie.name}>
               <td>{cookie.name}</td>
-              <td>
-                {cookie.value}
+              <td className="cookie-value">
+                <div className="cookie-value-content">
+                  {cookie.value}
+                </div>
               </td>
             </tr>
           ))}
@@ -60,7 +62,6 @@ function ResultList({ results }: ResultListProps) {
         <tbody>
           {results.map((promiseResult, index) =>
             promiseResult.status === 'fulfilled' ? null : (
-              /* eslint-disable-next-line react/no-array-index-key */
               <tr key={index} className="error-row">
                 <td>
                   <FailedIcon width={20} height={20} />

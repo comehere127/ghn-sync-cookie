@@ -75,7 +75,7 @@ class Storage {
 
   debug = async () => {
     const all = await browser.storage.local.get(['cookies','domains','port']);
-    console.group('Storage.debug();',all);
+    console.group('Storage.debug',all);
     Object.entries(all).forEach(([key, value]) => {
       console.log('Storage:', key);
       console.table(value);
