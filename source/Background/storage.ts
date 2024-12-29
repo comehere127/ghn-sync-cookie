@@ -26,7 +26,7 @@ export const DEFAULT_DOMAINS: Array<Domain> = [
   },
   {
     name: "Portal Staging",
-    domain: 'portal.ghn.vn',
+    domain: 'stg-portal.ghn.tech',
     syncEnabled: false
   }
 ];

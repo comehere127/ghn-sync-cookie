@@ -21,5 +21,5 @@ export async function findOpenDevUITabs() {
 }
 
 export async function findOpenProdTabs() {
-  return findOpenTabsMatching(['https://test-portal.ghn.tech/*','https://stg-portal.ghn.tech/*','https://portal.ghn.vn/*']);
+  return findOpenTabsMatching(['https://test-portal.ghn.tech/*','https://stg-portal.ghn.tech/*']);
 }

@@ -2,7 +2,6 @@ import browser from 'webextension-polyfill';
 export const enum Environment {
   TEST = 'test',
   STAGING = 'staging',
-  PRODUCTION = 'production',
   LOCAL = "local"
 }
 
@@ -11,7 +10,7 @@ export interface DomainInfo {
   domain: string;
 }
 
-const DOMAIN_REGEX = /((?:test|stg)-portal\.ghn\.tech|portal\.ghn\.vn|localhost(?::\d+)?)/;
+const DOMAIN_REGEX = /((?:test|stg)-portal\.ghn\.tech|localhost(?::\d+)?)/;
 
 export const analyzeDomain = (url: string): DomainInfo => {
   const match = url.match(DOMAIN_REGEX);
@@ -30,9 +29,7 @@ export const analyzeDomain = (url: string): DomainInfo => {
     environment = Environment.TEST;
   } else if (domain.startsWith('stg-')) {
     environment = Environment.STAGING;
-  } else if (domain === 'portal.ghn.vn') {
-    environment = Environment.PRODUCTION;
-  }else if (domain.startsWith('localhost')) {
+  } else if (domain.startsWith('localhost')) {
     environment = Environment.LOCAL;
   }
 

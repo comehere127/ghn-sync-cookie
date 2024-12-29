@@ -207,3 +207,6 @@ dist/
 
 # React Component Preview
 previewConfig.json
+
+# VS code
+.vscode/symbols.json
