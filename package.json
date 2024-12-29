@@ -76,7 +76,6 @@
     "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-import-helpers": "latest",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-n": "latest",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "latest",

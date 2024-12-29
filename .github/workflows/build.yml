@@ -82,30 +82,3 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
           artifacts: extension/chrome.zip, extension/edge.zip, extension/opera.zip, extension/firefox.xpi
-
-  upload:
-    needs: package
-    runs-on: ubuntu-latest
-    env:
-      node-version: 19.x # See Node.js release schedule: https://nodejs.org/en/about/releases/
-
-    strategy:
-      fail-fast: false
-      matrix:
-        command:
-          - chrome
-          - firefox
-          - sentry
-    steps:
-      - uses: actions/download-artifact@master
-        with:
-          name: extensions
-          path: extension/
-
-      - name: Submit to Mozilla
-        if: matrix.command == 'firefox'
-        run: npx web-ext-submit@7 --no-input --source-dir extension/firefox
-        env:
-          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
-
