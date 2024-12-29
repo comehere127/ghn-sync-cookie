@@ -84,9 +84,7 @@ async function setCookiesForLocalhost() {
 
   const results = Promise.allSettled(
     targetOrigins.flatMap(() =>
-      domainCookies.map(({ cookie }) => {
-        return setTargetCookie("http://localhost",  cookie);
-      })
+      domainCookies.map(({ cookie }) => setTargetCookie("http://localhost", cookie))
     )
   );
   return results;
@@ -177,7 +175,7 @@ async function onMessage(
   try {
     await onMessage({command: 'sync-now'});
   // eslint-disable-next-line no-empty
-  } catch (e) {
+  } catch (_e) {
   } finally {
     await Storage.debug();
   }

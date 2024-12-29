@@ -16,7 +16,7 @@ export default function CopyButton({text}: Props) {
         setState('copied');
       })
       // eslint-disable-next-line no-unused-vars
-      .catch((_) => {
+      .catch((_error) => {
         setState('error');
       })
       .finally(() => {

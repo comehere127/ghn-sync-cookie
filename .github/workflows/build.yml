@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build & Release
 
 on:
   push:
@@ -7,23 +7,19 @@ on:
     tags: 
       - 'releases/**'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      node-version: 18.x # See Node.js release schedule: https://nodejs.org/en/about/releases/
+if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
+jobs:
+  pump-version:
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.find_version.outputs.new_tag }}
+      new_version: ${{ steps.find_version.outputs.new_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Node v${{ env.node-version }}
-        uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.node-version }}
-          cache: 'yarn'
-      
-      - run: yarn install --frozen-lockfile
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch next version
         uses: mathieudutour/github-tag-action@v6.1
@@ -33,20 +29,51 @@ jobs:
           release_branches: master
           dry_run: true
 
-      - name: Set package.json version to ${{ steps.find_version.outputs.new_tag }}
-        run: >
-          cp package.json tmp.json;
-          jq -r '.version |= "${{ steps.find_version.outputs.new_version }}"' tmp.json > package.json;
+      - name: Update package.json version
+        run: |
+          cp package.json tmp.json
+          jq -r '.version |= "${{ steps.find_version.outputs.new_version }}"' tmp.json > package.json
           rm -rf tmp.json
 
-      - name: Set manifest.json version to ${{ steps.find_version.outputs.new_tag }}
-        run: >
-          cp source/manifest.json tmp.json;
-          jq -r '.version |= "${{ steps.find_version.outputs.new_version }}"' tmp.json > source/manifest.json;
+      - name: Update manifest.json version
+        run: |
+          cp source/manifest.json tmp.json
+          jq -r '.version |= "${{ steps.find_version.outputs.new_version }}"' tmp.json > source/manifest.json
           rm -rf tmp.json
 
+      - name: Commit version updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add package.json source/manifest.json
+          git commit -m "chore: bump version to ${{ steps.find_version.outputs.new_version }} [skip ci]"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+          force: false
+
+  build:
+    needs: pump-version
+    runs-on: ubuntu-latest
+    env:
+      node-version: 18.x
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: master # Ensure we're using the updated master
+
+      - name: Setup Node v${{ env.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+          cache: 'yarn'
+      
+      - run: yarn install --frozen-lockfile
       - run: yarn run lint
-
       - run: yarn run build
 
       - uses: actions/upload-artifact@master
@@ -55,30 +82,29 @@ jobs:
           path: extension/
 
   package:
-    needs: build
+    needs: [pump-version, build]
     runs-on: ubuntu-latest
     env:
-      node-version: 19.x # See Node.js release schedule: https://nodejs.org/en/about/releases/
-    outputs:
-      new_tag: ${{ steps.tag_version.outputs.new_tag }}
-
+      node-version: 18.x
     steps:
       - uses: actions/download-artifact@master
         with:
           name: extensions
           path: extension/
 
-      - name: Bump version and push tag
+      - name: Create tag
         uses: mathieudutour/github-tag-action@v6.1
         id: tag_version
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: master
+          custom_tag: ${{ needs.pump-version.outputs.new_tag }}
+          dry_run: false
 
-      - name: Create GitHub release tag ${{ steps.tag_version.outputs.new_tag }}
+      - name: Create GitHub release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          tag: ${{ needs.pump-version.outputs.new_tag }}
+          name: Release ${{ needs.pump-version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
           artifacts: extension/chrome.zip, extension/edge.zip, extension/opera.zip, extension/firefox.xpi

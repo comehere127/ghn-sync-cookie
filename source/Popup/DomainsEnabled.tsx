@@ -59,28 +59,39 @@ function DomainsEnabled() {
 
   React.useEffect(() => {
     setDomainSelected(fromDomains.find((item) => item.syncEnabled) ?? null)
-  },[fromDomains, setDomainSelected])
+  }, [fromDomains, setDomainSelected])
+  
+  const onKeyChange = React.useCallback((e: React.KeyboardEvent) => isInputNumber(e), [])
+  
+  const onFromDomainChanged = React.useCallback((selected?:string) => {
+    setFromDomains((prev) => {
+      const newDomains = prev.map(item => ({
+        ...item,
+        syncEnabled: selected?.indexOf(item.domain) !== -1,
+      }));
+      return newDomains;
+    });
+  }, [])
+  
+  const onLocalPortChanged = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const port = e.target.value;
+      setLocalPort(port);
+  }, [setLocalPort]);
 
   return (
     <section className="domainsEnabled-grid">
       <div>
         <h2>Sync from</h2>
         <div className='domainsEnabled-from'>
-          {fromDomains?.map((domain) => (
-          <ListItem
-            key={domain.domain}
-            domain={domain}
-            onChange={(selected) => {
-            setFromDomains((prev) => {
-              const newDomains = prev.map(item => ({
-                ...item,
-                syncEnabled: selected?.indexOf(item.domain) !== -1,
-              }));
-              return newDomains;
-            });
-            }}
-          />
-        ))}
+          {
+            fromDomains?.map((domain) => (
+              <ListItem
+                key={domain.domain}
+                domain={domain}
+                onChange={onFromDomainChanged}
+              />
+            ))
+          }
         </div>
         <h2>Sync to locahost</h2>
         <i>local development PORT</i>
@@ -88,11 +99,11 @@ function DomainsEnabled() {
           type="text"
           placeholder='Please enter local development PORT'
           value={localPort}
-          onKeyDown={(e: React.KeyboardEvent) => isInputNumber(e)}
-          onChange={(e) => setLocalPort(e.target.value)} />
+          onKeyDown={onKeyChange}
+          onChange={onLocalPortChanged} />
       </div>
     </section>
   );
 }
 
-export default DomainsEnabled;
+export default React.memo(DomainsEnabled);

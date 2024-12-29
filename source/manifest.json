@@ -33,6 +33,11 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "author": "TuDHM",
+  "__firefox__browser_specific_settings": {
+    "gecko": {
+      "id": "duonghominhtu1207@gmail.com"
+    }
+  },
   "__chrome__minimum_chrome_version": "88",
   "__opera__minimum_opera_version": "36",
   "__firefox__browser_action": {

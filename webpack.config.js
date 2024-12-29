@@ -26,6 +26,7 @@ const extensionReloaderPlugin =
           // TODO: reload manifest on update
           contentScript: 'contentScript',
           extensionPage: ['popup', 'options'],
+          background: 'background',
         },
       })
     : () => {

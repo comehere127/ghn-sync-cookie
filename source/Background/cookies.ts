@@ -49,14 +49,13 @@ export async function setTargetCookie(
 }> {
   const details:Cookies.SetDetailsType = {
     url: origin,
-    // domain: targetDomain,
-    expirationDate: cookie.expirationDate,
-    // httpOnly: cookie.httpOnly,
     name: cookie.name,
-    sameSite: cookie.sameSite,
-    // secure: cookie.secure,
     value: cookie.value,
     path: cookie.path,
+    ...(cookie.expirationDate && { expirationDate: cookie.expirationDate }),
+    ...(cookie.sameSite && { sameSite: cookie.sameSite as Cookies.SameSiteStatus }),
+    ...(typeof cookie.httpOnly === 'boolean' && { httpOnly: cookie.httpOnly }),
+    ...(typeof cookie.secure === 'boolean' && { secure: cookie.secure })
   };
 
   const updated = await browser.cookies.set(details);

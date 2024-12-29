@@ -69,7 +69,7 @@ const ButtonGroup = React.memo(({
 
 interface ErrorProps{
   error: string
-  domainSelected: Domain|null
+  domainSelected: Domain | null
 }
 
 const ErrorAlert = React.memo(({ error, domainSelected }: ErrorProps) => {
