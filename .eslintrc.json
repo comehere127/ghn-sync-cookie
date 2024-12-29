@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:import/typescript",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "eslint:recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "import-helpers",
+    "eslint-plugin-react-compiler",
+    "react",
+    "jsx-a11y"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "function-declaration"
+      }
+    ],
+    "import/no-default-export": "off",
+    "@typescript-eslint/explicit-module-boundary-types":"off",
+    "@typescript-eslint/no-non-null-assertion":"off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "import-helpers/order-imports": [
+      "error",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          "/^react/",
+          "module",
+          "/^~/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "build",
+    "dist",
+    "out",
+    "coverage",
+    ".eslintrc.js",
+    ".eslintrc.cjs"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser"
+    },
+    {
+      "files": ["*.config.{js,mjs,ts}"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "__chrome|edge|opera__manifest_version": 3,
+  "__firefox__manifest_version": 2,
+  "name": "GHN Cookie Sync",
+  "version": "1.0.0",
+  "icons": {
+    "32": "assets/icons/favicon-32.png",
+    "128": "assets/icons/favicon-128.png",
+    "180": "assets/icons/favicon-180.png",
+    "192": "assets/icons/favicon-192.png"
+  },
+  "description": "Sync cookies for local frontend development of GHN SingleWeb",
+  "homepage_url": "https://github.com/comehere127/ghn-sync-cookie",
+  "short_name": "Cookie Sync",
+  "__chrome|edge|opera__permissions": [
+    "cookies",
+    "storage",
+    "tabs"
+  ],
+  "__firefox__permissions": [
+    "cookies",
+    "storage",
+    "tabs",
+    "https://*.ghn.vn/*",
+    "https://*.ghn.tech/*",
+    "http://localhost/*"
+  ],
+  "__chrome|edge|opera__host_permissions": [
+    "https://*.ghn.vn/*",
+    "https://*.ghn.tech/*",
+    "http://localhost/*"
+  ],
+  "__firefox__content_security_policy": "script-src 'self'; object-src 'self'",
+  "__chrome|edge|opera__content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "author": "TuDHM",
+  "__chrome__minimum_chrome_version": "88",
+  "__opera__minimum_opera_version": "36",
+  "__firefox__browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "GHN Cookie Sync",
+    "browser_style": false
+  },
+  "__chrome|edge|opera__action": {
+    "default_popup": "popup.html",
+    "default_title": "GHN Cookie Sync"
+  },
+  "background": {
+    "__firefox__scripts": [
+      "js/serviceworker.bundle.js"
+    ],
+    "__chrome|edge|opera__service_worker": "js/serviceworker.bundle.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost/*"
+      ],
+      "js": [
+        "js/contentScript.bundle.js"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+:root {
+  /* colors */
+  --sync-black: #0d0d0d;
+
+  --sync-surface100: #1A141F;
+
+  --sync-white: #fff;
+  --sync-dark-light: #353746;
+  --sync-red: #da2c4d;
+  --sync-yellow: #f8ab37;
+  --sync-primary: #FF5200;
+  
+  --sync-gray500: #EBE6EF;
+  --sync-gray400: #D6D0DC;
+  --sync-gray300: #998DA5;
+  --sync-gray200: #43384C;
+  --sync-gray100: #342B3B;
+
+  --sync-red400: #F32F35;
+  --sync-red300: #F55459;
+
+  --sync-green400: #26B593;
+}

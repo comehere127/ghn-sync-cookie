@@ -1,0 +1,198 @@
+@import "../styles/reset.css";
+@import "../styles/variables.css";
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext');
+
+body {
+  color: var(--sync-gray500);
+  background-color: var(--sync-surface100);
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+input[disabled] {
+  color: white;
+}
+
+button:disabled{
+  background-color: var(--sync-gray200);
+  border-color: var(--sync-gray200);
+  cursor: not-allowed;
+}
+
+#popup {
+  min-width: 450px;
+  padding: 10px 20px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  background: linear-gradient(to right,var(--sync-primary),var(--sync-yellow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+i {
+  font-size: .75rem;
+  line-height: 0.75rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  margin-top: -0.25rem;
+  color: var(--sync-gray300) !important;
+}
+
+.sync-button {
+  border-radius: 4px;
+  display: inline-block;
+  border-radius: 4px;
+  text-transform: none;
+  font-weight: 600;
+  color: var(--sync-white);
+  background-color: var(--sync-primary);
+  height: 34px;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  padding-inline: 12px;
+  padding-block: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.sync-button:hover:not(:disabled){
+  box-shadow: 0 0 4px 4px rgba(255, 82, 0, 0.5);
+}
+
+.dev-ui-button {
+  border-radius: 4px;
+  display: inline-block;
+  border-radius: 4px;
+  text-transform: none;
+  font-weight: 600;
+  color: var(--sync-white);
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 34px;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  padding-inline: 12px;
+  padding-block: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease;
+}
+.dev-ui-button:hover:not(:disabled){
+  box-shadow: 0 0 4px 4px rgba(255, 255, 255, 0.1);
+}
+
+
+.copy-button {
+  border-radius: 4px;
+  display: inline-block;
+  border-radius: 4px;
+  text-transform: none;
+  color: var(--sync-white);
+  background-color: var(--sync-primary);
+  border: 1px solid var(--sync-primary);
+  font-size: 0.875rem;
+  line-height: 1rem;
+  padding-inline: 6px;
+  padding-block: 2px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+.copy-button:hover:not(:disabled){
+  box-shadow: 0 0 4px 4px rgba(255, 82, 0, 0.5);
+}
+
+.result {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.error-alert {
+  color: var(--sync-red300);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-row {
+  color: var(--sync-green400);
+  align-items: center;
+}
+.success-row a,
+.success-row a:visited {
+  color: var(--sync-green400);
+}
+
+.error-row {
+  color: var(--sync-red400);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.current-version {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+.current-version a {
+  color: var(--sync-white);
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin 0.4s linear infinite;
+  width: 18px;
+  height: 18px;
+  border-radius: 18px;
+  border-top: 2px solid var(--sync-gray400);
+  border-right: 2px solid var(--sync-gray400);
+  border-bottom: 2px solid var(--sync-gray400);
+  border-left: 2px solid var(--sync-primary);
+  margin-left: auto;
+}
+
+.found-cookies td:last-child {
+  word-break: break-all;
+}
+.found-cookies td, .found-cookies th{
+  padding: 0.5rem;
+}
+table.found-cookies {
+  border-radius: 4px;
+  border: 1px solid var(--sync-gray200);
+  /* border-collapse: collapse; */
+
+  border-spacing: 0;
+  border-collapse: separate;
+  overflow: hidden;
+}
+
+
+table.found-cookies th:not(:last-child),
+table.found-cookies td:not(:last-child) {
+ border-right: 1px solid var(--sync-gray200);
+}
+
+table.found-cookies>tbody>tr:not(:last-child)>th,
+table.found-cookies>tbody>tr:not(:last-child)>td,
+table.found-cookies>tr:not(:last-child)>td,
+table.found-cookies>tr:not(:last-child)>th,
+table.found-cookies>tbody:not(:last-child) {
+ border-bottom: 1px solid var(--sync-gray200);
+}
