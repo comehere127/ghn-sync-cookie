@@ -210,3 +210,5 @@ previewConfig.json
 
 # VS code
 .vscode/symbols.json
+
+source/ContentScript/*

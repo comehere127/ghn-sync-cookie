@@ -54,15 +54,5 @@
       "js/serviceworker.bundle.js"
     ],
     "__chrome|edge|opera__service_worker": "js/serviceworker.bundle.js"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://localhost/*"
-      ],
-      "js": [
-        "js/contentScript.bundle.js"
-      ]
-    }
-  ]
+  }
 }
