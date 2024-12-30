@@ -36,17 +36,18 @@ export default function useSyncNow() {
       ...initState,
       isLoading: true,
     });
-
     try {
       const results = (await browser.runtime.sendMessage({
         command: 'sync-now',
-      } as Message)) as SyncNowResponse;
-
+      } as Message));
+      if (results instanceof Error) {
+        throw results
+      }
       return setAndReturnState({
         ...initState,
         results,
       });
-    } catch (err: unknown) {
+    } catch (err) {
       return setAndReturnState({
         ...initState,
         error: err as Error,

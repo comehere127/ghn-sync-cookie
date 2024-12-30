@@ -21,7 +21,7 @@ export const analyzeDomain = (url: string): DomainInfo => {
     return {
       environment: null,
       domain: '',
-      isHostDomain: true,
+      isHostDomain: false,
       url
     };
   }
@@ -57,19 +57,26 @@ export const replaceDomain = (url: string, newDomain: string): string => {
 
 export async function openTab(url: string, tab?: browser.Tabs.Tab) {
   if (tab?.id) {
-    await browser.tabs.update(tab.id, { active: true });
+    await browser.tabs.update(tab.id, {
+      active: true,
+    });
     if (tab.windowId) {
-      await browser.windows.update(tab.windowId, { focused: true });
+      await browser.windows.update(tab.windowId, {
+        drawAttention: true,
+        focused: true
+      });
     }
     window.close();
   } else {
     const newTab = await browser.tabs.create({
       url: url,
-      active: true
+      active: true,
     });
-          
     if (newTab.windowId) {
-      await browser.windows.update(newTab.windowId, { focused: true });
+      await browser.windows.update(newTab.windowId, {
+        focused: true,
+        drawAttention: true,
+      });
     }
   }
 }

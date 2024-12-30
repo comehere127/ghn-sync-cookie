@@ -97,11 +97,11 @@ async function setCookiesForLocalhost() {
 async function onCookieChanged(
   changeInfo: Cookies.OnChangedChangeInfoType
 ): Promise<void> {
+  const { cookie } = changeInfo;
+  if (!analyzeDomain(cookie.domain).isHostDomain || !isKnownCookie(cookie.name)) {
+    return;
+  }
   try {
-    const { cookie } = changeInfo;
-    if (!analyzeDomain(cookie.domain).isHostDomain || !isKnownCookie(cookie.name)) {
-      return;
-    }
     console.group('Received onCookieChanged',JSON.stringify(changeInfo));
 
     const cookieCache = await Storage.getCookieCache();
@@ -112,8 +112,7 @@ async function onCookieChanged(
     debugResults('Cookie did update', results);
     console.groupEnd();
   // eslint-disable-next-line no-empty
-  } catch (error) { 
-    console.error(error)
+  } catch (_error) { 
   } finally {
     console.groupEnd();
   }
@@ -124,20 +123,18 @@ async function onTabUpdated(
   changeInfo: Tabs.OnUpdatedChangeInfoType,
   tab: Tabs.Tab
 ): Promise<void> {
+  if (!origin || !analyzeDomain(tab.url!).isHostDomain) {
+    return;
+  }
   try {
-    if (!origin || !analyzeDomain(tab.url!).isHostDomain) {
-      return;
-    }
     console.group('Received onTabUpdated', {changeInfo});
-
     const origins = tabsToOrigins([tab]);
     await saveProdCookies(origins);
 
     const results = await setCookiesForLocalhost();
     debugResults('Tab did update', results);
   // eslint-disable-next-line no-empty
-  } catch (error) { 
-    console.error(error)
+  } catch (_error) { 
   } finally {
     console.groupEnd();
   }
@@ -148,29 +145,22 @@ async function onTabUpdated(
  */
 async function onMessage(
   request: Message
-): Promise<SyncNowResponse | StorageClearResponse | false> {
-  try {
-    if (!request.command) {
-      return false;
-    }
-    console.group(`Received "${request.command}" command`);
-    switch (request.command) {
-      case 'sync-now': {
-        await findAndCacheData();
-        const results = await setCookiesForLocalhost();
-        debugResults('Sync complete', results);
-        return results;
-      }
-      case 'storage-clear':
-        await Storage.clear();
-        return true;
-    }
-  // eslint-disable-next-line no-empty
-  } catch (error) { 
-    console.error(error)
+): Promise<SyncNowResponse | StorageClearResponse | Error | false> {
+  if (!request.command) {
     return false;
-  } finally {
-    console.groupEnd();
+  }
+  switch (request.command) {
+    case 'sync-now': {
+      await findAndCacheData();
+      const results = await setCookiesForLocalhost();
+      debugResults('Sync complete', results);
+      console.groupEnd();
+      return results;
+    }
+    case 'storage-clear':
+      await Storage.clear();
+      console.groupEnd();
+      return true;
   }
 }
 

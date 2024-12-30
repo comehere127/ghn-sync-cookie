@@ -5,19 +5,23 @@ import uniq from '../utils/uniq';
 const cookieNames: ReadonlyArray<string> = [
   'sso_session',
   'it',
-  'ghn_token',
+  '*_token',
 ];
 
+
 export function isKnownCookie(cookieName: string) {
-  return cookieNames.includes(cookieName);
+  return cookieNames.some(pattern => {
+    if (pattern.includes('*')) {
+      const regexPattern = new RegExp(pattern.replace('*', '.*'));
+      return regexPattern.test(cookieName);
+    }
+    return pattern === cookieName;
+  });
 }
 
 async function readCookiesFrom(origin: string): Promise<Cookies.Cookie[]> {
-  return (
-    await Promise.all(
-      cookieNames.map((name) => browser.cookies.get({name, url: origin}))
-    )
-  ).filter(Boolean);
+  const allCookies = await browser.cookies.getAll({ url: origin });
+  return allCookies.filter(cookie => isKnownCookie(cookie.name));
 }
 
 export async function getCookiesByOrigin(origins: string[]) {

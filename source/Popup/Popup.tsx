@@ -149,9 +149,12 @@ function Popup() {
       const [currentTab] = await browser.tabs.query({ currentWindow: true, active: true });
       if (!currentTab?.url) throw new Error('No active tab');
       let newUrl = replaceDomain(currentTab.url, `localhost:${localPort}`);  
-
       newUrl = newUrl.replace("https://", "http://");
-      const [existingTab] = await browser.tabs.query({ url: newUrl });
+      let [existingTab] = await browser.tabs.query({ url: newUrl });
+      if (!existingTab) {
+        const existingTabs = await browser.tabs.query({})
+        existingTab = existingTabs?.find(item=>item.url===newUrl)
+      }
       openTab(newUrl, existingTab);
     } catch (err) {
       console.error('Error handling dev UI:', err);
