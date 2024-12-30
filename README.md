@@ -36,8 +36,8 @@ _NOTE: Auto-update will not work with manual installations._
         - Visit [`about:config`](about:config)
         - Set `xpinstall.signatures.required = false`
         - Set `extensions.langpacks.signatures.required = false`
-    3. Visit [about:addons](about:addons)
-    4. Drag & drop the `firefox.crx` file you downloaded into the page.
+    3. Visit [`about:addons`](about:addons)
+    4. Drag & drop the `firefox.xpi` file you downloaded into the page.
 
 - ### Safari
 
