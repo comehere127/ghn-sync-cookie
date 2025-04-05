@@ -9,12 +9,9 @@ import { findOpenProdTabs, tabsToOrigins } from "./tabs";
 
 function debugResults(
 	event: string,
-	// eslint-disable-next-line no-undef
+  // eslint-disable-next-line no-undef
 	results: PromiseSettledResult<
-		| {
-				origin: string;
-				cookie: browser.Cookies.Cookie;
-		  }
+		| {origin: string; cookie: browser.Cookies.Cookie;}
 		| undefined
 	>[],
 ) {
