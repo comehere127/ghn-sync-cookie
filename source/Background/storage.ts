@@ -69,7 +69,7 @@ class CookieCache {
 class Storage {
 	private cookieCache: CookieCache | null = null;
 
-	clear = browser.storage.local.clear;
+	clear = () => browser.storage.local.clear();
 
 	debug = async () => {
 		const all = await browser.storage.local.get(["cookies", "domains", "port"]);

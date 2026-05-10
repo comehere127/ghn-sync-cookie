@@ -170,15 +170,15 @@ async function onMessage(
 /**
  * Service-worker entrypoint.
  */
+browser.cookies.onChanged.addListener(onCookieChanged);
+browser.tabs.onUpdated.addListener(onTabUpdated);
+browser.runtime.onMessage.addListener(onMessage);
+
 (async function init() {
 	console.clear();
-	Storage.clear();
 	console.info("Cookie Sync Service Worker is starting...");
-
-	browser.cookies.onChanged.addListener(onCookieChanged);
-	browser.tabs.onUpdated.addListener(onTabUpdated);
-	browser.runtime.onMessage.addListener(onMessage);
 	try {
+		await Storage.clear();
 		await onMessage({ command: "sync-now" });
 		// eslint-disable-next-line no-empty
 	} catch (_e) {
